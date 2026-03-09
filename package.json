@@ -1,0 +1,28 @@
+{
+    "name": "agent-score-mcp",
+    "version": "1.0.0",
+    "description": "Official MCP server for AgentScore Registry on Base Sepolia",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsx src/index.ts",
+        "start": "node dist/index.js",
+        "start:http": "HTTP_PORT=3000 node dist/index.js",
+        "test": "vitest run",
+        "docker:build": "docker build -t agent-score-mcp .",
+        "docker:run": "docker run -p 3000:3000 --env HTTP_PORT=3000 agent-score-mcp"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.27.0",
+        "viem": "^2.21.0",
+        "zod": "^3.23.8",
+        "express": "^4.19.2"
+    },
+    "devDependencies": {
+        "@types/node": "^22.0.0",
+        "tsx": "^4.19.0",
+        "typescript": "^5.6.0",
+        "vitest": "^2.0.0"
+    }
+}
