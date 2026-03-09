@@ -60,4 +60,5 @@ POST to `http://localhost:3000/mcp` with standard MCP JSON-RPC.
 - `listRegisteredAgents(owner?)` → array of enriched agents
 
 All read-only. Zero private keys. Fully trustless.
+
 Enjoy building with AgentScore reputation! 🚀
