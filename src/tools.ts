@@ -1,9 +1,9 @@
-import { Server } from "@modelcontextprotocol/server";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { publicClient, CONTRACT_ADDRESS, AGENT_SCORE_ABI } from "./config.js";
 import type { AgentProfile, Assertion } from "./types.js";
 
-export function registerAgentScoreTools(server: Server) {
+export function registerAgentScoreTools(server: McpServer) {
   // Tool 1: getAgentScore
   server.registerTool(
     "getAgentScore",
@@ -26,7 +26,7 @@ export function registerAgentScoreTools(server: Server) {
         metadataURI: z.string(),
       }),
     },
-    async ({ identifier }) => {
+    async ({ identifier }: { identifier: number | string }) => {
       try {
         let tokenId: bigint;
 
@@ -69,15 +69,14 @@ export function registerAgentScoreTools(server: Server) {
         };
 
         return {
-          structuredContent: result,
           content: [
-            { type: "text" as const, text: JSON.stringify(result, null, 2) },
+            { type: "text", text: JSON.stringify(result, null, 2) },
           ],
         };
       } catch (err: any) {
         return {
           isError: true,
-          content: [{ type: "text" as const, text: `Error: ${err.message}` }],
+          content: [{ type: "text", text: `Error: ${err.message}` }],
         };
       }
     },
@@ -101,7 +100,7 @@ export function registerAgentScoreTools(server: Server) {
         }),
       ),
     },
-    async ({ tokenId, limit }) => {
+    async ({ tokenId, limit }: { tokenId: number; limit: number }) => {
       try {
         const scores = await publicClient.readContract({
           address: CONTRACT_ADDRESS,
@@ -131,15 +130,14 @@ export function registerAgentScoreTools(server: Server) {
         });
 
         return {
-          structuredContent: result,
           content: [
-            { type: "text" as const, text: JSON.stringify(result, null, 2) },
+            { type: "text", text: JSON.stringify(result, null, 2) },
           ],
         };
       } catch (err: any) {
         return {
           isError: true,
-          content: [{ type: "text" as const, text: `Error: ${err.message}` }],
+          content: [{ type: "text", text: `Error: ${err.message}` }],
         };
       }
     },
@@ -168,7 +166,7 @@ export function registerAgentScoreTools(server: Server) {
         }),
       ),
     },
-    async ({ owner }) => {
+    async ({ owner }: { owner?: string }) => {
       try {
         const agents: any[] = [];
 
@@ -182,8 +180,7 @@ export function registerAgentScoreTools(server: Server) {
           });
           if (tokenId === 0n)
             return {
-              structuredContent: [],
-              content: [{ type: "text" as const, text: "[]" }],
+              content: [{ type: "text", text: "[]" }],
             };
 
           const profile = (await publicClient.readContract({
@@ -250,15 +247,14 @@ export function registerAgentScoreTools(server: Server) {
         }
 
         return {
-          structuredContent: agents,
           content: [
-            { type: "text" as const, text: JSON.stringify(agents, null, 2) },
+            { type: "text", text: JSON.stringify(agents, null, 2) },
           ],
         };
       } catch (err: any) {
         return {
           isError: true,
-          content: [{ type: "text" as const, text: `Error: ${err.message}` }],
+          content: [{ type: "text", text: `Error: ${err.message}` }],
         };
       }
     },

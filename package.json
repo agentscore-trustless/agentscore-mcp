@@ -14,7 +14,7 @@
         "docker:run": "docker run -p 3000:3000 --env HTTP_PORT=3000 agent-score-mcp"
     },
     "dependencies": {
-        "@modelcontextprotocol/server": "^1.27.1",
+        "@modelcontextprotocol/sdk": "^1.27.1",
         "express": "^4.19.2",
         "viem": "^2.21.0",
         "zod": "^3.23.8"
